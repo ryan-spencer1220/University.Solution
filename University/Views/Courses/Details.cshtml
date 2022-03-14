@@ -1,0 +1,29 @@
+@{
+  Layout = "_Layout";
+}
+
+@model University.Models.Course;
+
+<h2>CourseDetails</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.CourseName): @Html.DisplayFor(model => model.CourseName)</h3>
+<h3>@Html.DisplayNameFor(model => model.CourseNumber): @Html.DisplayFor(model => model.CourseNumber)</h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This category does not contain any items</p>
+}
+else
+{
+  <h4>Students Enrolled In Course:</h4>
+  <ul>
+  @foreach(var join in Model.JoinEntities)
+  {
+    <li>@join.Student.StudentName</li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back To Courses", "Index")</p>
+<p>@Html.ActionLink("Edit Course", "Edit", new { id = Model.CourseId })</p>
+<p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.CourseId })</p>
