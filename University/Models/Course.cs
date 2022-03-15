@@ -12,7 +12,10 @@ namespace University.Models
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string CourseNumber { get; set; }
-
         public virtual ICollection<CourseStudent> JoinEntities { get; set; }
+        public int DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
+        
+       // public virtual ICollection<Department> Departments { get; set; }
     }
 }

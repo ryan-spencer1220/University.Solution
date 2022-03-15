@@ -9,7 +9,7 @@ using University.Models;
 namespace University.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    [Migration("20220314222120_Initial")]
+    [Migration("20220315181009_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,12 @@ namespace University.Migrations
                     b.Property<string>("CourseNumber")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.HasKey("CourseId");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Courses");
                 });
@@ -57,6 +62,20 @@ namespace University.Migrations
                     b.ToTable("CourseStudent");
                 });
 
+            modelBuilder.Entity("University.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("DepartmentId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("University.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -66,12 +85,28 @@ namespace University.Migrations
                     b.Property<DateTime>("DateOfEnrollment")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudentName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("StudentId");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("University.Models.Course", b =>
+                {
+                    b.HasOne("University.Models.Department", "Department")
+                        .WithMany("Courses")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("University.Models.CourseStudent", b =>
@@ -93,9 +128,27 @@ namespace University.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("University.Models.Student", b =>
+                {
+                    b.HasOne("University.Models.Department", "Department")
+                        .WithMany("Students")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("University.Models.Course", b =>
                 {
                     b.Navigation("JoinEntities");
+                });
+
+            modelBuilder.Entity("University.Models.Department", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("University.Models.Student", b =>
