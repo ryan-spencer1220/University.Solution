@@ -24,6 +24,20 @@
   @Html.Label("Select Department")
   @Html.DropDownList("DepartmentId")
 
+    @foreach(var join in Model.JoinEntities)
+  {
+    <li>@join.Course.CourseName </li>
+    <li>@join.CourseCompleted  </li>
+    
+    @Html.CheckBoxFor(m=>m.Students.CourseCompleted, false)
+    
+
+    @using (Html.BeginForm("DeleteCourse", "Students"))
+    {
+        @Html.Hidden("joinId", @join.CourseStudentId)
+    }
+  }
+
   <input type="submit" value="Save" />
 }
 

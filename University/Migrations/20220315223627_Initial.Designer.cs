@@ -9,7 +9,7 @@ using University.Models;
 namespace University.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    [Migration("20220315181009_Initial")]
+    [Migration("20220315223627_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,9 @@ namespace University.Migrations
                     b.Property<int>("CourseStudentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("CourseCompleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");

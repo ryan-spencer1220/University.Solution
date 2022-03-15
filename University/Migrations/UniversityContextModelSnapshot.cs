@@ -45,6 +45,9 @@ namespace University.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("CourseCompleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 

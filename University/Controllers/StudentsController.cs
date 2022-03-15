@@ -42,6 +42,38 @@ namespace University.Controllers
       return RedirectToAction("Index");
     }
 
+/* @using (Html.BeginForm("SaveCheck", "Items", FormMethod.Post))
+{
+  @for (int i = 0; i < Model.Count; i++)
+  {
+    @Html.HiddenFor(m => Model[i].ItemId)
+    @Html.CheckBoxFor(m => Model[i].Checked)
+    @Html.LabelFor(m=> Model[i].Checked, Model[i].Description)
+  }
+}
+
+public ActionResult Edit(int id)
+    {
+      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
+      ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
+      ViewBag.myList = new List<string>
+      return View(thisItem);
+    }
+
+
+[HttpPost]
+public ActionResult SaveCheck(List<Item> model)
+{
+  foreach (Item item in model)
+  {
+    var i = _db.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+    i.Checked = item.Checked;
+    _db.Entry(i).State = EntityState.Modified;
+  }
+  _db.SaveChanges();
+  return RedirectToAction("Index");
+} */
+
     public ActionResult Details(int id)
     {
       var thisStudent = _db.Students
@@ -56,6 +88,10 @@ namespace University.Controllers
       var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
       ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
       ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "CourseName");
+      ViewBag.CompletedCourseRecords =_db.Students
+          .Include(student => student.JoinEntities)
+          .ThenInclude(join => join.Course)
+          .FirstOrDefault(student => student.StudentId == id);
       return View(thisStudent);
     }
 
